@@ -68,7 +68,7 @@ def format_dataset(dataset):
 
 
 def generate_prompt(user_input, dataset):
-    prompt = f"{user_input}. Please only use assets available in the list below: {dataset}, and refer to their uri in the format `https://fuel.gazebosim.org/1.0/[model_owner]/models/[model_name]`, making sure to replace the `model_owner` and `model_name` variables. Do not create assets from primitives"
+    prompt = f"{user_input}. Please only use assets available in the list below: {dataset}, and refer to their uri in the format `https://fuel.gazebosim.org/1.0/[model_owner]/models/[model_name]`, making sure to replace the `model_owner` and `model_name` variables, also give them a <name> tag with unique values to avoid model name collisions. Do not create assets from primitives"
     return prompt
 
 
