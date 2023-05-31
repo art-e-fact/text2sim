@@ -97,14 +97,12 @@ def generate_sdf(user_input, dataset):
     return sdf_file
 
 
-
-
 if __name__ == "__main__":
     # query the fuel dataset
     dataset = query_dataset(user_input)
     with open("outputs/fuel_response.json", "w+") as json_file:
         json.dump(dataset, json_file)
-    #with open("fuel_response.json") as json_file:
+    # with open("fuel_response.json") as json_file:
     #    dataset = json.load(json_file)
     # format the dataset
     dataset = format_dataset(dataset)
