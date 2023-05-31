@@ -1,0 +1,12 @@
+version: 0.1.0
+project: text2sim
+
+jobs:
+  test:
+    runtime:
+      simulator: gazebo:fortress
+    scenarios:
+      settings:
+        - name: warehouse
+          run: python generate.sdf && gz sim outputs/world_file.sdf
+    type: test
