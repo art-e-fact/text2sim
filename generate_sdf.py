@@ -6,6 +6,8 @@ import requests
 import openai
 import os
 
+from utils import validate_sdf_file, parse_gpt_output
+
 # Set OpenAI API key from environment variable
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
@@ -95,42 +97,14 @@ def generate_sdf(user_input, dataset):
     return sdf_file
 
 
-def parse_gpt_output(output):
-    """parse the output of the GPT model to get the sdf file
-    he output is generally as follow
-
-    Here is your file
-    ```
-    <sdf version="1.6">
-    ....
-    ...
-    ```
-
-    I added a few boxes and something something
-    """
-    # split the output by the first occurence of ``` to get the sdf file
-    split = output.split("```")
-    sdf_file = split[1]
-    explanation = split[2]
-    # return the sdf file
-    return sdf_file, explanation
-
-
-def validate_sdf_file(sdf_file):
-    # check that the sdf file is valid xml
-    import xml.etree.ElementTree as ET
-
-    try:
-        root = ET.fromstring(sdf_file)
-    except ET.ParseError:
-        return False
-    return True
 
 
 if __name__ == "__main__":
     # query the fuel dataset
     dataset = query_dataset(user_input)
-    #with open("tests/fixtures/fuel_response.json") as json_file:
+    with open("outputs/fuel_response.json", "w+") as json_file:
+        json.dump(dataset, json_file)
+    #with open("fuel_response.json") as json_file:
     #    dataset = json.load(json_file)
     # format the dataset
     dataset = format_dataset(dataset)
@@ -141,7 +115,7 @@ if __name__ == "__main__":
     # check that the sdf file is vald xml
     valid = validate_sdf_file(sdf_file)
     # save the sdf file
-    with open("world_file.sdf", "w") as f:
+    with open("outputs/world_file.sdf", "w") as f:
         f.write(sdf_file)
     # print the response
     print(explanation)
