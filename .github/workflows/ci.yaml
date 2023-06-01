@@ -1,0 +1,33 @@
+name: test-env
+
+on: push
+
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        pyython-version: [3.10]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r requirements_dev.txt
+
+      - name: lint
+        run: python -m black . --check
+
+      - name: Generate env
+        run: python generate_sdf.py
+
+      - name: Run Tests
+        run: pytest
