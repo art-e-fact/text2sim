@@ -3,10 +3,15 @@ project: text2sim
 
 jobs:
   test:
+    package:
+      docker:
+        build:
+          dockerfile: ./Dockerfile
     runtime:
       simulator: gazebo:fortress
+      framework: null
     scenarios:
       settings:
         - name: warehouse
-          run: python generate.sdf && gz sim outputs/world_file.sdf
+          run: gz sim outputs/world_file.sdf
     type: test
